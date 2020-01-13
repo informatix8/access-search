@@ -1,0 +1,59 @@
+body {
+    background-color: #eee;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+#app {
+}
+
+.header {
+    background-color: #ccc;
+}
+
+.main {
+    background-color: #eee;
+}
+
+.header-container,
+.main-container {
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 16px;
+}
+
+.icon-clock-back {
+    background: url("icons/clock-back.svg") no-repeat center;
+}
+.icon-close-circle {
+    background: url("icons/close-circle.svg") no-repeat center;
+}
+.icon-close {
+    background: url("icons/close.svg") no-repeat center;
+}
+.icon-search {
+    background: url("icons/search.svg") no-repeat center;
+}
+.icon-spinner {
+    background: url("icons/spinner-alt.svg") no-repeat center;
+}
+[class*=icon-] {
+    vertical-align: middle;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+
+/* Pagination */
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
