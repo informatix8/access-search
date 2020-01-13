@@ -21,6 +21,7 @@
     "src/*"
   ],
   "dependencies": {
+    "@informatix8/search-bios": "^1.0.1",
     "core-js": "^3.6.3",
     "lodash.debounce": "^4.0.8",
     "url-search-params-polyfill": "^7.0.1",
