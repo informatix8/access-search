@@ -13,7 +13,7 @@ npm install @informatix8/access-search --save-dev
 ### CDN
 
 ```html
-<script src="https://unpkg.com/@informatix8/access-search/dist/access-search/script>
+<script src="https://unpkg.com/@informatix8/access-search/dist/access-search-vue.umd.min.js"></script>
 ```
 
 ### Vanilla Javascript
