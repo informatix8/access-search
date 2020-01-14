@@ -253,7 +253,7 @@ export default {
             required: false
         }
     },
-    data() {
+    data () {
         return {
             pristine: true,
             focused: false,
@@ -271,78 +271,78 @@ export default {
         };
     },
     watch: {
-        query() {
+        query () {
             this.localQuery = this.query; //changes from the top-down? Update my local copy
         },
-        expanded() {
+        expanded () {
             this.localExpanded = this.expanded; //changes from the top-down? Update my local copy
         },
-        mobileZoomed() {
+        mobileZoomed () {
             this.localMobileZoomed = this.stateService.mobileZoomed; //changes from the top-down? Update my local copy
         },
-        activeDescendant() {
+        activeDescendant () {
             const focusedItem = document.getElementById(this.activeDescendant);
 
             if (focusedItem !== null && this.comboGroupScrollPane !== null) {
                 this.comboGroupScrollPane.intoView(focusedItem);
             }
         },
-        historyVisible() {
+        historyVisible () {
             this.doPositionComboGroup();
         },
-        suggestionsVisible() {
+        suggestionsVisible () {
             this.doPositionComboGroup();
         },
-        historyPending() {
+        historyPending () {
             this.doPositionComboGroup();
         },
-        suggestionsPending() {
+        suggestionsPending () {
             this.doPositionComboGroup();
         }
     },
     computed: {
-        query() {
+        query () {
             return this.request.q;
         },
-        activeDescendant() {
+        activeDescendant () {
             return this.request.activeDescendant;
         },
-        focusedHistoryItem() {
+        focusedHistoryItem () {
             return this.request.focusedHistoryItem;
         },
-        focusedSuggestionItem() {
+        focusedSuggestionItem () {
             return this.request.focusedSuggestionItem;
         },
-        historyLength() {
+        historyLength () {
             return this.response.history.length;
         },
-        suggestionsLength() {
+        suggestionsLength () {
             return this.response.suggestions.length;
         },
-        loading() {
+        loading () {
             return this.stateService.searchPending;
         },
-        historyVisible() {
+        historyVisible () {
             return this.stateService.historyVisible;
         },
-        historyPending() {
+        historyPending () {
             return this.stateService.historyPending;
         },
-        suggestionsVisible() {
+        suggestionsVisible () {
             return this.stateService.suggestionsVisible;
         },
-        suggestionsPending() {
+        suggestionsPending () {
             return this.stateService.suggestionsPending;
         },
-        mobileZoomed() {
+        mobileZoomed () {
             return this.stateService.mobileZoomed;
         },
-        aria() {
+        aria () {
             return {
                 expanded: this._ariaExpandedLogic()
             };
         },
-        searchFieldClass() {
+        searchFieldClass () {
             return {
                 expandable: this.expandable === true,
                 expanded: this.expandable === true && this.localExpanded === true,
@@ -361,24 +361,22 @@ export default {
                 'history-pending': this.config.historyEnabled && this.historyPending
             };
         },
-        fieldHasText() {
+        fieldHasText () {
             return this.localQuery.length > 0;
         },
-        ariaOwns() {
+        ariaOwns () {
             if (this.config.historyEnabled && this.historyVisible && !this.historyPending) {
                 return this.sid + '-search-history';
-            }
-            else if (this.config.suggestionsEnabled && this.suggestionsVisible && !this.suggestionsPending) {
+            } else if (this.config.suggestionsEnabled && this.suggestionsVisible && !this.suggestionsPending) {
                 return this.sid + '-search-suggestions';
-            }
-            else {
+            } else {
                 return '';
             }
         },
-        universeId() {
+        universeId () {
             return this.sid + '-search-field-universe';
         },
-        expandPanelId() {
+        expandPanelId () {
             return this.sid + '-search-field-container';
         }
     },
@@ -390,7 +388,7 @@ export default {
          * @summary Internal measure the width of the browser’s scrollbar
          * @private
          */
-        measureScroll() {
+        measureScroll () {
             const outer = document.createElement('div');
             outer.style.visibility = 'hidden';
             outer.style.position = 'fixed';
@@ -421,8 +419,8 @@ export default {
          * @summary Internal measurement function
          * @private
          */
-        isPointWithinViewport(x, y, viewport) {
-            return 0 <= x && x <= 0 + viewport.width && 0 <= y && y <= 0 + viewport.height;
+        isPointWithinViewport (x, y, viewport) {
+            return x >= 0 && x <= 0 + viewport.width && y >= 0 && y <= 0 + viewport.height;
         },
         /**
          * Should the `aria-expanded` attribute be included?
@@ -430,7 +428,7 @@ export default {
          * @instance
          * @returns {(Boolean|String)} Returns a boolean `false` or string value `true` or `false`
          */
-        _ariaExpandedLogic() {
+        _ariaExpandedLogic () {
             if (this.expandable) {
                 if (this.localExpanded) {
                     return 'true';
@@ -441,7 +439,7 @@ export default {
 
             return false;
         },
-        onClickAway(e) {
+        onClickAway (e) {
             const comboGroup = this.$refs.comboGroup;
             const clearBtn = this.$refs.clearButton;
             const clearBtnIcon = this.$refs.clearBtnIcon;
@@ -451,25 +449,22 @@ export default {
 
             if (searchField !== null && searchField === e.target) {
                 exit = true;
-            }
-            else if (comboGroup !== null && comboGroup.contains(e.target)) {
+            } else if (comboGroup !== null && comboGroup.contains(e.target)) {
                 exit = true;
-            }
-            else if ((clearBtn === e.target || clearBtnIcon === e.target) && this.focused && this.localMobileZoomed) {
+            } else if ((clearBtn === e.target || clearBtnIcon === e.target) && this.focused && this.localMobileZoomed) {
                 exit = true;
             }
 
             if (exit) {
-                return;
-            }
-            else {
+
+            } else {
                 this.focused = false;
                 this.localMobileZoomed = false;
                 this.doRemoveZoomedInlineStyle();
                 this.$emit('do-outside-trigger', this.localMobileZoomed);
             }
         },
-        onCloseClick() {
+        onCloseClick () {
             this.focused = false;
             this.localExpanded = false;
             this.localMobileZoomed = false;
@@ -477,48 +472,48 @@ export default {
             this.delayedFocusExpandButton();
             this.doRemoveZoomedInlineStyle();
         },
-        doFocusSearchField() {
+        doFocusSearchField () {
             const searchField = this.$refs.searchField;
             if (searchField !== null) {
                 searchField.focus();
             }
         },
-        doBlurSearchField() {
+        doBlurSearchField () {
             const searchField = this.$refs.searchField;
             if (searchField !== null) {
                 searchField.blur();
             }
         },
-        doFocusExpandButton() {
+        doFocusExpandButton () {
             const el = this.$refs.expandButton;
             if (el !== null) {
                 el.focus();
             }
         },
-        onExpandClick() {
+        onExpandClick () {
             this.localExpanded = !this.localExpanded;
 
             if (this.localExpanded) {
                 this.delayedFocusSearchField();
             }
         },
-        onClearClick() {
+        onClearClick () {
             this.delayedSignificantKeyUp.cancel();
             this.delayedEnterKey.cancel();
             this.doDismissIntent('cleared search field');
             this.localQuery = '';
             this.doFocusSearchField();
         },
-        onArrowUpKey(e) {
+        onArrowUpKey (e) {
             this.delayedArrowUpKey(e);
         },
-        onArrowDownKey(e) {
+        onArrowDownKey (e) {
             this.delayedArrowDownKey(e);
         },
-        onEnterKeyDown(e) {
+        onEnterKeyDown (e) {
             this.enterKeyTarget = e.target;
         },
-        onEnterKeyUp(e) {
+        onEnterKeyUp (e) {
             if (this.enterKeyTarget !== e.target) {
                 //short circuit, the enter key down event does not match the enter key up event target: that means the search field was not focused for the entire key stroke, in other words, focus was programatically moved to the search field after enter key down - two cases would produce this. 1. pressing enter on the expand button, 2. pressing enter on the clear button
                 return;
@@ -532,10 +527,10 @@ export default {
 
             this.delayedEnterKey(); //debounce my search submit/dropdown select
         },
-        curtail() {
+        curtail () {
             return false;
         },
-        onFocusIn() {
+        onFocusIn () {
             this.focused = true;
             this.pristine = false;
 
@@ -545,14 +540,14 @@ export default {
                 this.$emit('do-mobile-zoom', this.localMobileZoomed);
             }
         },
-        onTabInKey() {
+        onTabInKey () {
             this.doEditIntent();
         },
-        onTabOutKey() {
+        onTabOutKey () {
             //this.focused = false;// HMM?
             this.delayedDismissIntent('tab out');
         },
-        onEscKey() {
+        onEscKey () {
             this.delayedSignificantKeyUp.cancel();
 
             this.delayedDismissIntent.cancel();
@@ -568,7 +563,7 @@ export default {
 
             this.$emit('do-esc');
         },
-        onSignificantKey(e) {
+        onSignificantKey (e) {
             const currentKey = e.key.toLowerCase();
 
             if (META_KEYS.indexOf(currentKey) === -1) { //not a meta key = something of significance
@@ -580,22 +575,22 @@ export default {
                 this.delayedSignificantKeyUp(e);
             }
         },
-        onClickField() {
+        onClickField () {
             this.doEditIntent();
         },
-        onBlur() {
+        onBlur () {
             //FIXME refactor to tab down?
             if (this.config.autoSubmitAfterTyping) {
                 this.delayedAutoSubmit();
             }
         },
-        onSubmit() {
+        onSubmit () {
             this.doSearch('clickSubmit');
         },
-        doAutoSubmit() {
+        doAutoSubmit () {
             this.doSearch('autoSubmit');
         },
-        doUnzoom() {
+        doUnzoom () {
             if (this.localMobileZoomed) {
                 this.focused = false;
                 this.localMobileZoomed = false;
@@ -603,40 +598,39 @@ export default {
                 this.doBlurSearchField();
             }
         },
-        doEnterKey() {
+        doEnterKey () {
             this.doUnzoom();
             this.$emit('do-enter', this.localQuery, this.localMobileZoomed);
         },
-        doEditIntent() {
+        doEditIntent () {
             this.$emit('do-edit-intent', this.localQuery);
         },
-        doDismissIntent(reason) {
+        doDismissIntent (reason) {
             this.$emit('do-dismiss-intent', reason);
         },
-        doArrowUpKey() {
+        doArrowUpKey () {
             this.$emit('do-arrow-up', this.localQuery);
         },
-        doArrowDownKey() {
+        doArrowDownKey () {
             this.$emit('do-arrow-down', this.localQuery);
         },
-        doSearch(reason) {
+        doSearch (reason) {
             this.doUnzoom();
             this.$emit('do-search', this.localQuery, reason);
         },
-        doAutoCollapseResize() {
+        doAutoCollapseResize () {
             if (this.localExpanded && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
                 this.localExpanded = false;
-            }
-            else if (!this.localExpanded && window.matchMedia('(min-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
+            } else if (!this.localExpanded && window.matchMedia('(min-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
                 this.localExpanded = true;
             }
         },
-        doKeepOnScreen() {
+        doKeepOnScreen () {
             if (this.historyVisible || this.suggestionsVisible) {
                 this.doPositionComboGroup();
             }
         },
-        doPositionComboGroup() {
+        doPositionComboGroup () {
             const searchField = this.$refs.searchField;
             const comboGroup = this.$refs.comboGroup;
 
@@ -646,7 +640,7 @@ export default {
             }
 
             if (window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
-                // reset on small screens - we don’t do the logic there
+                //reset on small screens - we don’t do the logic there
 
                 comboGroup.style.position = null;
                 comboGroup.style.overflowX = null;
@@ -666,7 +660,7 @@ export default {
                 return;
             }
 
-            // trigger
+            //trigger
             const tempTrigger = searchField.getBoundingClientRect();
             const trigger = {
                 left: tempTrigger.left,
@@ -681,7 +675,7 @@ export default {
                 return;
             }
 
-            // reset
+            //reset
             comboGroup.style.position = 'fixed';
             comboGroup.style.overflowX = 'hidden';
             comboGroup.style.overflowY = 'hidden';
@@ -695,7 +689,7 @@ export default {
 
             let scale;
 
-            // viewport
+            //viewport
             const viewport = {
                 width: (window.clientWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth),
                 height: (window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight)
@@ -763,7 +757,7 @@ export default {
 
             let left, top;
 
-            // Left Bottom
+            //Left Bottom
             if (trigger.bottom + body.heightOS < viewport.height) {
                 top = this.plusTop + trigger.bottom;
                 top = top < this.plusTop ? this.plusTop : top;
@@ -777,7 +771,7 @@ export default {
                 return;
             }
 
-            // Left Bottom Scroll
+            //Left Bottom Scroll
             if (this.config.comboGroupMinHeight !== false &&
                 viewport.height - trigger.bottom - this.plusTop > this.config.comboGroupMinHeight
             ) {
@@ -797,7 +791,7 @@ export default {
                 return;
             }
 
-            // Left Top (+scroll in extra cases)
+            //Left Top (+scroll in extra cases)
             if (trigger.top - body.heightOS >= -this.config.comboGroupMinHeight) {
                 top = trigger.top - body.height - this.plusBottom;
                 top = top < this.plusTop ? this.plusTop : top;
@@ -813,11 +807,9 @@ export default {
 
                 comboGroup.style.top = top + 'px';
                 comboGroup.style.left = left + 'px';
-
-                return;
             }
         },
-        doRemoveZoomedInlineStyle() {
+        doRemoveZoomedInlineStyle () {
             if (this.zoomable) {
                 const searchContainer = this.$refs.expandPanel;
                 const fieldPlaceholder = this.$refs.searchFieldPlaceholder;
@@ -826,7 +818,7 @@ export default {
                 document.querySelector('body').classList.remove('access-lock-position');
             }
         },
-        doCalculateZoomedPosition() {
+        doCalculateZoomedPosition () {
             if (this.zoomable) {
                 const searchContainer = this.$refs.expandPanel;
                 const fieldPlaceholder = this.$refs.searchFieldPlaceholder;
@@ -842,14 +834,14 @@ export default {
             }
         }
     },
-    created() {
+    created () {
         this.delayedSignificantKeyUp = debounce(this.doEditIntent, this.config.delaySignificantKeyUp, TRAILING);
 
-        this.delayedArrowUpKey =  debounce(this.doArrowUpKey, this.config.delayArrowUpKey, LEADING);
-        this.delayedArrowDownKey =  debounce(this.doArrowDownKey, this.config.delayArrowDownKey, LEADING);
-        this.delayedEnterKey =  debounce(this.doEnterKey, this.config.delayEnterKey, LEADING);
+        this.delayedArrowUpKey = debounce(this.doArrowUpKey, this.config.delayArrowUpKey, LEADING);
+        this.delayedArrowDownKey = debounce(this.doArrowDownKey, this.config.delayArrowDownKey, LEADING);
+        this.delayedEnterKey = debounce(this.doEnterKey, this.config.delayEnterKey, LEADING);
 
-        this.delayedDismissIntent =  debounce(this.doDismissIntent, this.config.delayDismissIntent, LEADING);
+        this.delayedDismissIntent = debounce(this.doDismissIntent, this.config.delayDismissIntent, LEADING);
         this.delayedAutoSubmit = debounce(this.doAutoSubmit, this.config.delayAutoSubmit, TRAILING);
 
         this.delayedFocusExpandButton = debounce(this.doFocusExpandButton, this.config.delayFocusExpandButton, TRAILING);
@@ -872,7 +864,7 @@ export default {
         }
 
         this.$on('do-click-history-item', () => {
-            // this.$emit('do-click-history-item', idx);
+            //this.$emit('do-click-history-item', idx);
 
             if (!this.localMobileZoomed) {
                 this.doFocusSearchField(); //hyper focus
@@ -881,7 +873,7 @@ export default {
         });
 
         this.$on('do-click-suggestions-item', () => {
-            // this.$emit('do-click-suggestions-item', idx);
+            //this.$emit('do-click-suggestions-item', idx);
 
             if (!this.localMobileZoomed) {
                 this.doFocusSearchField(); //hyper focus
@@ -889,8 +881,7 @@ export default {
             this.doUnzoom();
         });
     },
-    mounted() {
-
+    mounted () {
         if (this.scrollSize === null) {
             this.measureScroll();
         }
@@ -907,7 +898,7 @@ export default {
 
         this.comboGroupScrollPane = zenscroll.createScroller(this.$refs.comboGroup);
     },
-    beforeDestroy() {
+    beforeDestroy () {
         if (this.delayedAutoCollapseResize !== null) {
             window.removeEventListener('resize', this.delayedAutoCollapseResize);
             this.delayedAutoCollapseResize = null;
@@ -924,7 +915,7 @@ export default {
     components: {
         AccessSearchHistory, AccessSearchSuggestions
     }
-}
+};
 </script>
 <style lang="scss">
 @keyframes spin {

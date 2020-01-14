@@ -43,32 +43,32 @@ export default {
             type: Object
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-suggestion-result-item',
             hovered: false
         };
     },
     computed: {
-        itemClasses() {
+        itemClasses () {
             return {
                 'access-suggest-item-wrapper': true,
                 'access-suggest-item-is-hovered': this.hovered === true,
                 'access-suggest-item-is-focused': (this.result.suggestionIndex - 1 === this.focusedItem)
             };
         },
-        suggestionId() {
+        suggestionId () {
             return this.sid + this.fieldType + '-' + (this.result.suggestionIndex - 1);
         }
     },
     methods: {
-        onMouseEnter() {
+        onMouseEnter () {
             this.hovered = true;
         },
-        onMouseLeave() {
+        onMouseLeave () {
             this.hovered = false;
         },
-        onClick() {
+        onClick () {
             this.$parent.$parent.$emit('do-click-suggestions-item', this.result.suggestionId);
         }
     }

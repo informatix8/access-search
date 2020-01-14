@@ -40,7 +40,7 @@ export default {
     },
     data: function () {
         return {
-            fieldType: '-search-limit',
+            fieldType: '-search-limit'
         };
     },
     computed: {

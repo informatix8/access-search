@@ -38,7 +38,7 @@ export default {
             type: Number
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-result-item'
         };

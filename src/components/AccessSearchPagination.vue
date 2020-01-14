@@ -113,44 +113,44 @@ export default {
         }
     },
     computed: {
-        isPrevDisabled() {
+        isPrevDisabled () {
             return this.meta.offset === 0;
         },
-        isNextDisabled() {
+        isNextDisabled () {
             return this.currentPageNo >= this.lastPageNo;
         },
-        separateFirstPage() {
+        separateFirstPage () {
             const currentPageNo = this.currentPageNo;
             return currentPageNo > LEFT_MARGIN;
         },
-        leftGap() {
+        leftGap () {
             const currentPageNo = this.currentPageNo;
             if (currentPageNo <= MIN_FIRST_RANGE) return false;
             return currentPageNo > LEFT_MARGIN + 1;
         },
-        separateLastPage() {
+        separateLastPage () {
             const currentPageNo = this.currentPageNo;
             const lastPageNo = this.lastPageNo;
             return lastPageNo - currentPageNo > RIGHT_MARGIN;
         },
-        rightGap() {
+        rightGap () {
             const currentPageNo = this.currentPageNo;
             const lastPageNo = this.lastPageNo;
             return currentPageNo < lastPageNo - RIGHT_MARGIN - 2;
         },
-        currentPageNo() {
+        currentPageNo () {
             return Math.floor(this.meta.offset / this.meta.limit);
         },
-        lastPageNo() {
+        lastPageNo () {
             return Math.floor(this.meta.count / this.meta.limit);
         },
-        firstRangePage() {
+        firstRangePage () {
             if (this.currentPageNo <= MIN_FIRST_RANGE) {
                 return this.currentPageNo <= 1 ? 0 : 1;
             }
             return this.currentPageNo - LEFT_MARGIN;
         },
-        lastRangePage() {
+        lastRangePage () {
             const value = this.currentPageNo + RIGHT_MARGIN;
             if (value < MIN_FIRST_RANGE) {
                 return MIN_FIRST_RANGE;
@@ -160,7 +160,7 @@ export default {
             }
             return value;
         },
-        pagesRange() {
+        pagesRange () {
             const retVal = [];
 
             const currentPageNo = this.currentPageNo;
@@ -173,7 +173,7 @@ export default {
                     pageNo: pageNo,
                     text: pageNo + 1,
                     isActive: pageNo === currentPageNo
-                })
+                });
             }
 
             return retVal;
@@ -185,12 +185,12 @@ export default {
         };
     },
     watch: {
-        request() {
+        request () {
             this.value = this.request;
         }
     },
     methods: {
-        goTo(pageNo) {
+        goTo (pageNo) {
             this.$emit('do-offset', pageNo * this.meta.limit);
         }
     }

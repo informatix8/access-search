@@ -32,7 +32,7 @@ export default {
     mixins: [AccessSearchControlMixin],
     props: {
         name: String,
-        request: [ String, Boolean, Number ],
+        request: [String, Boolean, Number],
         config: Array,
         sid: String,
         visuallyHidden: {
@@ -40,7 +40,7 @@ export default {
             default: false
         }
     },
-    created() {
+    created () {
     },
     data: function () {
         const checked = {};
@@ -51,14 +51,14 @@ export default {
         };
     },
     watch: {
-        request() {
+        request () {
             const checked = {};
             checked[this.request] = true;
             this.checked = checked;
         }
     },
     methods: {
-        onChange(event) {
+        onChange (event) {
             if (event.target.checked) {
                 const value = event.target.value;
                 this.$emit('input', value);

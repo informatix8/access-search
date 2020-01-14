@@ -98,22 +98,22 @@ export default {
             type: String
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-results'
         };
     },
     computed: {
-        resultsData() {
+        resultsData () {
             if (Array.isArray(this.results)) {
                 return this.results;
             }
             if (this.results.data) {
                 return this.results.data;
             }
-            return []
+            return [];
         },
-        resultsClasses() {
+        resultsClasses () {
             return {
                 pristine: this.pristine === true,
                 dirty: this.pristine !== true

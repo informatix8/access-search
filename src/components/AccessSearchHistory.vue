@@ -30,7 +30,7 @@
 <script>
 'use strict';
 
-import AccessSearchControlMixin from './AccessSearchControlMixin.js'
+import AccessSearchControlMixin from './AccessSearchControlMixin.js';
 import AccessSearchHistoryItem from './AccessSearchHistoryItem.vue';
 
 /**
@@ -64,18 +64,18 @@ export default {
             type: Boolean
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-history'
         };
     },
     computed: {
-        reverseResults() {
+        reverseResults () {
             return this.results.slice().reverse();
         }
     },
     components: {
         AccessSearchHistoryItem
     }
-}
+};
 </script>

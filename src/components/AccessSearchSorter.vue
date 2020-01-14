@@ -39,7 +39,7 @@ export default {
         AccessSearchSelect
     },
     methods: {
-        onChange(value) {
+        onChange (value) {
             this.$emit('do-sort', value);
         }
     }

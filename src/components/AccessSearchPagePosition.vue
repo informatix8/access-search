@@ -19,19 +19,19 @@ export default {
     name: 'AccessSearchPosition',
     mixins: [AccessSearchControlMixin],
     props: {
-        meta: Object,
+        meta: Object
     },
     data: function () {
         return {
-            fieldType: '-search-page-position',
+            fieldType: '-search-page-position'
         };
     },
     computed: {
-        firstPage() {
-            return this.meta.offset + 1
+        firstPage () {
+            return this.meta.offset + 1;
         },
-        lastPage() {
-            return this.meta.offset + this.meta.length
+        lastPage () {
+            return this.meta.offset + this.meta.length;
         }
     }
 };

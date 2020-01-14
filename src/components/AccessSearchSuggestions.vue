@@ -60,7 +60,7 @@ export default {
             type: Boolean
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-suggestions'
         };

@@ -40,9 +40,9 @@ export default {
             default: false
         }
     },
-    created() {
+    created () {
     },
-    data() {
+    data () {
         const checked = {};
         for (const k of this.request) {
             checked[k] = true;
@@ -53,7 +53,7 @@ export default {
         };
     },
     watch: {
-        request() {
+        request () {
             const checked = {};
             for (const k of this.request) {
                 checked[k] = true;
@@ -62,10 +62,10 @@ export default {
         }
     },
     methods: {
-        onChange(event) {
+        onChange (event) {
             this.checked[event.target.value] = event.target.checked;
             const value = [];
-            for (let k in this.checked) {
+            for (const k in this.checked) {
                 if (this.checked[k]) {
                     value.push(k);
                 }

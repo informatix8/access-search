@@ -51,14 +51,14 @@ export default {
             type: String
         }
     },
-    data() {
+    data () {
         return {
             fieldType: '-search-history-item',
             hovered: false
         };
     },
     computed: {
-        itemClasses() {
+        itemClasses () {
             return {
                 'access-suggest-item-wrapper': true,
                 'access-suggest-item-is-hovered': this.hovered === true,
@@ -67,13 +67,13 @@ export default {
         }
     },
     methods: {
-        onMouseEnter() {
+        onMouseEnter () {
             this.hovered = true;
         },
-        onMouseLeave() {
+        onMouseLeave () {
             this.hovered = false;
         },
-        onClick(idx) {
+        onClick (idx) {
             this.$parent.$parent.$emit('do-click-history-item', idx);
         }
     }
