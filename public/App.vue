@@ -278,9 +278,17 @@ export default {
         };
     },
     components: {
-        AccessSearchSorter, AccessSearchPagePosition, AccessSearchPagination, AccessSearchLimit,
-        AccessSearchCheckList, AccessSearchRadioList,
-        AccessSearchField, AccessSearchResults, AccessSearchResultItem, AccessSearchHistoryItem, AccessSearchSuggestionsItem
+        AccessSearchCheckList,
+        AccessSearchField,
+        AccessSearchHistoryItem,
+        AccessSearchLimit,
+        AccessSearchPagePosition,
+        AccessSearchPagination,
+        AccessSearchRadioList,
+        AccessSearchResultItem,
+        AccessSearchResults,
+        AccessSearchSorter,
+        AccessSearchSuggestionsItem
     },
     mounted: function () {
         document.querySelectorAll('.access-field-input')[0].focus();
