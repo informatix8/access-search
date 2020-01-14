@@ -9,6 +9,7 @@
     "start": "npm run dev",
     "build": "vue-cli-service build --name access-search-vue --entry ./src/index.js --target lib",
     "lint": "vue-cli-service lint",
+    "lintfix": "eslint --fix --ext .js,.vue .",
     "doc:build": "npx vuedoc.md --section API --output ./README.md src/components/AccessSearchField.vue src/components/AccessSearchResults.vue",
     "prepublishOnly": "npm run lint && npm run build && npm run doc:build"
   },
