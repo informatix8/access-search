@@ -653,7 +653,7 @@ export default {
                 comboGroup.style.width = null;
                 comboGroup.style.webkitOverflowScrolling = null;
 
-                if (this.zoomable && this.suggestionsPending || this.historyPending) {
+                if (this.zoomable && (this.suggestionsPending || this.historyPending)) {
                     document.querySelector('body').classList.add('access-lock-position');
                 }
 
