@@ -12,7 +12,7 @@ const AccessSearchControlMixin = {
         }
     },
     computed: {
-        componentId() {
+        componentId () {
             return this.sid + this.fieldType;
         }
     }
