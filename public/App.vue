@@ -106,17 +106,6 @@
                         Loading...
                     </div>
                     <template v-slot:pagination="slotProps">
-
-<!--
-                        <access-search-page-position :meta="slotProps.meta" :sid="slotProps.sid" >
-                            <template slot="default" slot-scope="slotParams">
-                                <strong>{{ slotParams.firstPage }} - {{ slotParams.lastPage }}</strong>
-                                /
-                                <strong>{{ slotParams.count }}</strong><span>&nbsp;</span><span>results</span>
-                            </template>
-                        </access-search-page-position>
--->
-
                         <nav class="results-nav" v-if="smEpsilon.response.results && smEpsilon.response.results.meta && !smEpsilon.resultDataService.loading">
                             <access-search-page-position
                                 class="search-walk"
