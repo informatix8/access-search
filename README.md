@@ -16,11 +16,6 @@ npm install @informatix8/access-search --save-dev
 <script src="https://unpkg.com/@informatix8/access-search/dist/access-search-vue.umd.min.js"></script>
 ```
 
-### Vanilla Javascript
-
-```javascript
-```
-
 ## Development
 
 ```shell
