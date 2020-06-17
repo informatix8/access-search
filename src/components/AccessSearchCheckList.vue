@@ -1,15 +1,28 @@
 <template>
     <div class="access-field-body" :class="{visuallyhidden: visuallyHidden}">
-        <div class="access-field-choice-container" v-for="fieldConfig in config" :key="fieldConfig.value"
-             :class="{visuallyhidden: fieldConfig.visuallyHidden}">
-            <slot :checked="checked"
-                  :text="fieldConfig.text"
-                  :fieldName="name"
-                  :value="fieldConfig.value"
-                  :change="onChange">
+        <div
+            :class="{visuallyhidden: fieldConfig.visuallyHidden}"
+            :key="fieldConfig.value"
+            class="access-field-choice-container"
+            v-for="fieldConfig in config"
+        >
+            <slot
+                :change="onChange"
+                :checked="checked"
+                :field="fieldConfig"
+                :fieldName="name"
+                :text="fieldConfig.text"
+                :value="fieldConfig.value"
+            >
                 <label class="access-field-choice-label">
-                    <input :name="name" type="checkbox" class="access-field-choice"
-                           @change="onChange" :value="fieldConfig.value" :checked="checked[fieldConfig.value]"/>
+                    <input
+                        :checked="checked[fieldConfig.value]"
+                        :name="name"
+                        :value="fieldConfig.value"
+                        @change="onChange"
+                        class="access-field-choice"
+                        type="checkbox"
+                    />
                     <span class="access-field-choice-text">{{fieldConfig.text}}</span>
                 </label>
             </slot>
