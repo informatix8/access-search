@@ -352,7 +352,7 @@ export default {
                 pristine: this.pristine === true,
                 dirty: this.pristine === false,
                 focused: this.focused === true,
-                'with-overlay': this.localMobileZoomed === true && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches,
+                'with-overlay': this.localMobileZoomed === true && typeof window !== 'undefined' && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches,
                 'field-has-text': this.fieldHasText === true,
                 'suggestions-visible': this.config.suggestionsEnabled && this.suggestionsVisible,
                 //'no-suggestions': this.config.suggestionsEnabled && this.suggestionsVisible && this.response.suggestionsCount === 0, // no-suggestions is deprecated
@@ -534,7 +534,7 @@ export default {
             this.focused = true;
             this.pristine = false;
 
-            if (!this.localMobileZoomed && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
+            if (!this.localMobileZoomed && typeof window !== 'undefined' && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
                 this.doCalculateZoomedPosition();
                 this.localMobileZoomed = true;
                 this.$emit('do-mobile-zoom', this.localMobileZoomed);
@@ -619,9 +619,9 @@ export default {
             this.$emit('do-search', this.localQuery, reason);
         },
         doAutoCollapseResize () {
-            if (this.localExpanded && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
+            if (this.localExpanded && typeof window !== 'undefined' && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
                 this.localExpanded = false;
-            } else if (!this.localExpanded && window.matchMedia('(min-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
+            } else if (!this.localExpanded && typeof window !== 'undefined' && window.matchMedia('(min-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
                 this.localExpanded = true;
             }
         },
@@ -631,182 +631,184 @@ export default {
             }
         },
         doPositionComboGroup () {
-            const searchField = this.$refs.searchField;
-            const comboGroup = this.$refs.comboGroup;
+            if (typeof window !== 'undefined') {
+                const searchField = this.$refs.searchField;
+                const comboGroup = this.$refs.comboGroup;
 
-            //sanity check
-            if (searchField === null || comboGroup === null) {
-                return;
-            }
-
-            if (window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
-                //reset on small screens - we don’t do the logic there
-
-                comboGroup.style.position = null;
-                comboGroup.style.overflowX = null;
-                comboGroup.style.overflowY = null;
-                comboGroup.style.top = null;
-                comboGroup.style.right = null;
-                comboGroup.style.bottom = null;
-                comboGroup.style.left = null;
-                comboGroup.style.height = null;
-                comboGroup.style.width = null;
-                comboGroup.style.webkitOverflowScrolling = null;
-
-                if (this.zoomable && (this.suggestionsPending || this.historyPending)) {
-                    document.querySelector('body').classList.add('access-lock-position');
+                //sanity check
+                if (searchField === null || comboGroup === null) {
+                    return;
                 }
 
-                return;
-            }
+                if (typeof window !== 'undefined' && window.matchMedia('(max-width: ' + this.config.autoCollapseThreshold + 'px)').matches) {
+                    //reset on small screens - we don’t do the logic there
 
-            //trigger
-            const tempTrigger = searchField.getBoundingClientRect();
-            const trigger = {
-                left: tempTrigger.left,
-                top: tempTrigger.top,
-                right: tempTrigger.left + tempTrigger.width,
-                bottom: tempTrigger.top + tempTrigger.height,
-                width: tempTrigger.width,
-                height: tempTrigger.height
-            };
+                    comboGroup.style.position = null;
+                    comboGroup.style.overflowX = null;
+                    comboGroup.style.overflowY = null;
+                    comboGroup.style.top = null;
+                    comboGroup.style.right = null;
+                    comboGroup.style.bottom = null;
+                    comboGroup.style.left = null;
+                    comboGroup.style.height = null;
+                    comboGroup.style.width = null;
+                    comboGroup.style.webkitOverflowScrolling = null;
 
-            if (tempTrigger.width === 0) {
-                return;
-            }
+                    if (this.zoomable && (this.suggestionsPending || this.historyPending)) {
+                        document.querySelector('body').classList.add('access-lock-position');
+                    }
 
-            //reset
-            comboGroup.style.position = 'fixed';
-            comboGroup.style.overflowX = 'hidden';
-            comboGroup.style.overflowY = 'hidden';
-            comboGroup.style.top = 'auto';
-            comboGroup.style.right = 'auto';
-            comboGroup.style.bottom = 'auto';
-            comboGroup.style.left = 'auto';
-            comboGroup.style.height = 'auto';
-            comboGroup.style.width = tempTrigger.width + 'px';
-            comboGroup.style.webkitOverflowScrolling = 'touch';
+                    return;
+                }
 
-            let scale;
+                //trigger
+                const tempTrigger = searchField.getBoundingClientRect();
+                const trigger = {
+                    left: tempTrigger.left,
+                    top: tempTrigger.top,
+                    right: tempTrigger.left + tempTrigger.width,
+                    bottom: tempTrigger.top + tempTrigger.height,
+                    width: tempTrigger.width,
+                    height: tempTrigger.height
+                };
 
-            //viewport
-            const viewport = {
-                width: (window.clientWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth),
-                height: (window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight)
-            };
+                if (tempTrigger.width === 0) {
+                    return;
+                }
 
-            if (window.innerWidth > document.documentElement.clientWidth) {
-                scale = 1 / (document.body.clientWidth / (window.innerWidth - this.scrollSize));
-            } else {
-                scale = 1 / (document.body.clientWidth / window.innerWidth);
-            }
-
-            scale = parseFloat(scale.toFixed(2));
-            viewport.width = viewport.width * scale;
-            viewport.height = viewport.height * scale;
-
-            if (!this.isPointWithinViewport(trigger.left, trigger.top, viewport) &&
-                !this.isPointWithinViewport(trigger.left + trigger.width, trigger.top, viewport) &&
-                !this.isPointWithinViewport(trigger.left, trigger.top + trigger.height, viewport) &&
-                !this.isPointWithinViewport(trigger.left + trigger.width, trigger.top + trigger.height, viewport)
-            ) {
-                this.doDismissIntent('search field out of view');
-
-                return;
-            }
-
-            const body = {
-                width: comboGroup.clientWidth,
-                widthO: comboGroup.clientWidth + this.plusLeft + this.plusRight,
-                widthOS: comboGroup.clientWidth + this.plusLeft + this.plusRight + (this.isScrollOuter ? this.scrollSize : 0),
-                height: comboGroup.clientHeight,
-                heightO: comboGroup.clientHeight + this.plusTop + this.plusBottom,
-                heightOS: comboGroup.clientHeight + this.plusTop + this.plusBottom + (this.isScrollOuter ? this.scrollSize : 0)
-            };
-
-            if (body.widthOS >= viewport.width && body.heightOS >= viewport.height) {
-                comboGroup.style.left = this.plusLeft + 'px';
-                comboGroup.style.right = this.plusRight + 'px';
-                comboGroup.style.top = this.plusTop + 'px';
-                comboGroup.style.bottom = this.plusBottom + 'px';
-                comboGroup.style.overflowX = 'auto';
-                comboGroup.style.overflowY = 'auto';
-
-                return;
-            }
-
-            if (body.widthOS >= viewport.width) {
-                comboGroup.style.left = this.plusLeft + 'px';
-                comboGroup.style.right = this.plusRight + 'px';
-                comboGroup.style.top = this.plusTop + ((viewport.height - body.heightOS) / 2) + 'px';
-                comboGroup.style.overflowX = 'auto';
+                //reset
+                comboGroup.style.position = 'fixed';
+                comboGroup.style.overflowX = 'hidden';
                 comboGroup.style.overflowY = 'hidden';
+                comboGroup.style.top = 'auto';
+                comboGroup.style.right = 'auto';
+                comboGroup.style.bottom = 'auto';
+                comboGroup.style.left = 'auto';
+                comboGroup.style.height = 'auto';
+                comboGroup.style.width = tempTrigger.width + 'px';
+                comboGroup.style.webkitOverflowScrolling = 'touch';
 
-                return;
-            }
+                let scale;
 
-            if (body.heightOS >= viewport.height) {
-                comboGroup.style.top = this.plusTop + 'px';
-                comboGroup.style.bottom = this.plusBottom + 'px';
-                comboGroup.style.left = this.plusLeft + ((viewport.width - body.widthOS) / 2) + 'px';
-                comboGroup.style.overflowX = 'hidden';
-                comboGroup.style.overflowY = 'auto';
+                //viewport
+                const viewport = {
+                    width: (window.clientWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth),
+                    height: (window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight)
+                };
 
-                return;
-            }
+                if (window.innerWidth > document.documentElement.clientWidth) {
+                    scale = 1 / (document.body.clientWidth / (window.innerWidth - this.scrollSize));
+                } else {
+                    scale = 1 / (document.body.clientWidth / window.innerWidth);
+                }
 
-            let left, top;
+                scale = parseFloat(scale.toFixed(2));
+                viewport.width = viewport.width * scale;
+                viewport.height = viewport.height * scale;
 
-            //Left Bottom
-            if (trigger.bottom + body.heightOS < viewport.height) {
-                top = this.plusTop + trigger.bottom;
-                top = top < this.plusTop ? this.plusTop : top;
+                if (!this.isPointWithinViewport(trigger.left, trigger.top, viewport) &&
+                    !this.isPointWithinViewport(trigger.left + trigger.width, trigger.top, viewport) &&
+                    !this.isPointWithinViewport(trigger.left, trigger.top + trigger.height, viewport) &&
+                    !this.isPointWithinViewport(trigger.left + trigger.width, trigger.top + trigger.height, viewport)
+                ) {
+                    this.doDismissIntent('search field out of view');
 
-                left = this.plusLeft + trigger.left;
-                left = left < this.plusLeft ? this.plusLeft : left;
+                    return;
+                }
 
-                comboGroup.style.top = top + 'px';
-                comboGroup.style.left = left + 'px';
+                const body = {
+                    width: comboGroup.clientWidth,
+                    widthO: comboGroup.clientWidth + this.plusLeft + this.plusRight,
+                    widthOS: comboGroup.clientWidth + this.plusLeft + this.plusRight + (this.isScrollOuter ? this.scrollSize : 0),
+                    height: comboGroup.clientHeight,
+                    heightO: comboGroup.clientHeight + this.plusTop + this.plusBottom,
+                    heightOS: comboGroup.clientHeight + this.plusTop + this.plusBottom + (this.isScrollOuter ? this.scrollSize : 0)
+                };
 
-                return;
-            }
+                if (body.widthOS >= viewport.width && body.heightOS >= viewport.height) {
+                    comboGroup.style.left = this.plusLeft + 'px';
+                    comboGroup.style.right = this.plusRight + 'px';
+                    comboGroup.style.top = this.plusTop + 'px';
+                    comboGroup.style.bottom = this.plusBottom + 'px';
+                    comboGroup.style.overflowX = 'auto';
+                    comboGroup.style.overflowY = 'auto';
 
-            //Left Bottom Scroll
-            if (this.config.comboGroupMinHeight !== false &&
-                viewport.height - trigger.bottom - this.plusTop > this.config.comboGroupMinHeight
-            ) {
-                top = this.plusTop + trigger.bottom;
-                top = top < this.plusTop ? this.plusTop : top;
+                    return;
+                }
 
-                left = this.plusLeft + trigger.left;
-                left = left < this.plusLeft ? this.plusLeft : left;
+                if (body.widthOS >= viewport.width) {
+                    comboGroup.style.left = this.plusLeft + 'px';
+                    comboGroup.style.right = this.plusRight + 'px';
+                    comboGroup.style.top = this.plusTop + ((viewport.height - body.heightOS) / 2) + 'px';
+                    comboGroup.style.overflowX = 'auto';
+                    comboGroup.style.overflowY = 'hidden';
 
-                comboGroup.style.height = (viewport.height - top - this.plusBottom) + 'px';
-                comboGroup.style.overflowX = 'hidden';
-                comboGroup.style.overflowY = 'auto';
+                    return;
+                }
 
-                comboGroup.style.top = top + 'px';
-                comboGroup.style.left = left + 'px';
-
-                return;
-            }
-
-            //Left Top (+scroll in extra cases)
-            if (trigger.top - body.heightOS >= -this.config.comboGroupMinHeight) {
-                top = trigger.top - body.height - this.plusBottom;
-                top = top < this.plusTop ? this.plusTop : top;
-
-                left = trigger.left + this.plusLeft;
-                left = left < this.plusLeft ? this.plusLeft : left;
-
-                if (trigger.top - body.heightOS < 0) {
-                    comboGroup.style.height = trigger.top - this.plusTop - this.plusBottom + 'px';
+                if (body.heightOS >= viewport.height) {
+                    comboGroup.style.top = this.plusTop + 'px';
+                    comboGroup.style.bottom = this.plusBottom + 'px';
+                    comboGroup.style.left = this.plusLeft + ((viewport.width - body.widthOS) / 2) + 'px';
                     comboGroup.style.overflowX = 'hidden';
                     comboGroup.style.overflowY = 'auto';
+
+                    return;
                 }
 
-                comboGroup.style.top = top + 'px';
-                comboGroup.style.left = left + 'px';
+                let left, top;
+
+                //Left Bottom
+                if (trigger.bottom + body.heightOS < viewport.height) {
+                    top = this.plusTop + trigger.bottom;
+                    top = top < this.plusTop ? this.plusTop : top;
+
+                    left = this.plusLeft + trigger.left;
+                    left = left < this.plusLeft ? this.plusLeft : left;
+
+                    comboGroup.style.top = top + 'px';
+                    comboGroup.style.left = left + 'px';
+
+                    return;
+                }
+
+                //Left Bottom Scroll
+                if (this.config.comboGroupMinHeight !== false &&
+                    viewport.height - trigger.bottom - this.plusTop > this.config.comboGroupMinHeight
+                ) {
+                    top = this.plusTop + trigger.bottom;
+                    top = top < this.plusTop ? this.plusTop : top;
+
+                    left = this.plusLeft + trigger.left;
+                    left = left < this.plusLeft ? this.plusLeft : left;
+
+                    comboGroup.style.height = (viewport.height - top - this.plusBottom) + 'px';
+                    comboGroup.style.overflowX = 'hidden';
+                    comboGroup.style.overflowY = 'auto';
+
+                    comboGroup.style.top = top + 'px';
+                    comboGroup.style.left = left + 'px';
+
+                    return;
+                }
+
+                //Left Top (+scroll in extra cases)
+                if (trigger.top - body.heightOS >= -this.config.comboGroupMinHeight) {
+                    top = trigger.top - body.height - this.plusBottom;
+                    top = top < this.plusTop ? this.plusTop : top;
+
+                    left = trigger.left + this.plusLeft;
+                    left = left < this.plusLeft ? this.plusLeft : left;
+
+                    if (trigger.top - body.heightOS < 0) {
+                        comboGroup.style.height = trigger.top - this.plusTop - this.plusBottom + 'px';
+                        comboGroup.style.overflowX = 'hidden';
+                        comboGroup.style.overflowY = 'auto';
+                    }
+
+                    comboGroup.style.top = top + 'px';
+                    comboGroup.style.left = left + 'px';
+                }
             }
         },
         doRemoveZoomedInlineStyle () {
@@ -847,13 +849,13 @@ export default {
         this.delayedFocusExpandButton = debounce(this.doFocusExpandButton, this.config.delayFocusExpandButton, TRAILING);
         this.delayedFocusSearchField = debounce(this.doFocusSearchField, this.config.delayFocusSearchField, TRAILING);
 
-        if (this.expandable && this.autoCollapse) {
+        if (typeof window !== 'undefined' && this.expandable && this.autoCollapse) {
             this.boundAutoCollapseResize = this.doAutoCollapseResize.bind(this);
             this.delayedAutoCollapseResize = debounce(this.boundAutoCollapseResize, this.config.delayResize, TRAILING);
             window.addEventListener('resize', this.delayedAutoCollapseResize);
         }
 
-        if (this.config.historyEnabled || this.config.suggestionsEnabled) {
+        if (typeof window !== 'undefined' && (this.config.historyEnabled || this.config.suggestionsEnabled)) {
             this.boundKeepOnScreenResize = this.doKeepOnScreen.bind(this);
             this.delayedKeepOnScreenResize = debounce(this.boundKeepOnScreenResize, this.config.delayKeepOnScreen, TRAILING);
             window.addEventListener('resize', this.delayedKeepOnScreenResize);
@@ -899,15 +901,15 @@ export default {
         this.comboGroupScrollPane = zenscroll.createScroller(this.$refs.comboGroup);
     },
     beforeDestroy () {
-        if (this.delayedAutoCollapseResize !== null) {
+        if (typeof window !== 'undefined' && this.delayedAutoCollapseResize !== null) {
             window.removeEventListener('resize', this.delayedAutoCollapseResize);
             this.delayedAutoCollapseResize = null;
         }
-        if (this.delayedKeepOnScreenResize !== null) {
+        if (typeof window !== 'undefined' && this.delayedKeepOnScreenResize !== null) {
             window.removeEventListener('resize', this.delayedKeepOnScreenResize);
             this.delayedKeepOnScreenResize = null;
         }
-        if (this.delayedKeepOnScreenScroll !== null) {
+        if (typeof window !== 'undefined' && this.delayedKeepOnScreenScroll !== null) {
             window.removeEventListener('scroll', this.delayedKeepOnScreenScroll);
             this.delayedKeepOnScreenScroll = null;
         }
