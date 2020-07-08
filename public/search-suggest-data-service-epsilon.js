@@ -1,11 +1,10 @@
 'use strict';
 
-import {clearString} from '@informatix8/search-bios';
+import { clearString } from '@informatix8/search-bios';
 
-/* eslint-disable no-console */
+/*eslint-disable no-console */
 export default class SearchSuggestDataServiceEpsilon {
-
-    constructor() {
+    constructor () {
         this.loading = false;
         this.contract = {
             groupName: 'string',
@@ -19,7 +18,7 @@ export default class SearchSuggestDataServiceEpsilon {
         };
     }
 
-    fetchSuggestions(model, val) {
+    fetchSuggestions (model, val) {
         console.log(val, 'was typed for suggestions');
 
         this.loading = true;
@@ -28,10 +27,10 @@ export default class SearchSuggestDataServiceEpsilon {
             params.set('q', clearString(val));
 
             fetch('search-suggest.json?' + params.toString(), {
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
-                })
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
                 .then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
@@ -52,5 +51,4 @@ export default class SearchSuggestDataServiceEpsilon {
                 });
         });
     }
-
 }

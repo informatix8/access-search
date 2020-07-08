@@ -1,11 +1,10 @@
 'use strict';
 
-import {clearString} from '@informatix8/search-bios';
+import { clearString } from '@informatix8/search-bios';
 
-/* eslint-disable no-console */
+/*eslint-disable no-console */
 export default class SearchResultDataServiceTheta {
-
-    constructor() {
+    constructor () {
         this.loading = false;
         this.pristine = true;
         this.contract = {
@@ -16,23 +15,21 @@ export default class SearchResultDataServiceTheta {
         };
     }
 
-    fetchResults(model) {
+    fetchResults (model) {
         const query = clearString(model.request.q);
 
         this.loading = true;
         this.pristine = false;
         return new Promise((resolve, reject) => {
-            // Testing proof f concept for errors
+            //Testing proof f concept for errors
             if (query === 'fake') {
                 this.loading = false;
                 resolve([]);
-            }
-            else if (query === 'error') {
+            } else if (query === 'error') {
                 console.log('pre programmed reject');
                 this.loading = false;
                 reject('Pre-programmed demo error.');
-            }
-            else {
+            } else {
                 const params = new URLSearchParams();
                 params.set('q', query);
                 params.set('limit', model.request.limit);
@@ -42,10 +39,10 @@ export default class SearchResultDataServiceTheta {
                 params.set('checkBox', model.request.checkBox);
 
                 fetch('search-results.json?' + params.toString(), {
-                        headers: {
-                            'Content-type': 'application/json'
-                        }
-                    })
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
                     .then((response) => {
                         if (response.status >= 200 && response.status < 300) {
                             return response;
@@ -60,8 +57,8 @@ export default class SearchResultDataServiceTheta {
                         window.setTimeout(() => {
                             this.loading = false;
                             json.meta.limit = model.request.limit;
-                            json.meta.length = json.meta.count - model.request.offset < model.request.limit ?
-                                json.meta.count - model.request.offset : model.request.limit;
+                            json.meta.length = json.meta.count - model.request.offset < model.request.limit
+                                ? json.meta.count - model.request.offset : model.request.limit;
                             json.meta.offset = model.request.offset;
                             resolve(json);
                         }, 1000);
@@ -73,5 +70,4 @@ export default class SearchResultDataServiceTheta {
             }
         });
     }
-
 }

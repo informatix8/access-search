@@ -142,9 +142,9 @@ export default {
             return Math.floor(this.meta.offset / this.meta.limit);
         },
         lastPageNo () {
-             // https://stackoverflow.com/questions/39670902/pagination-calculation-algorithm
-             const last = Math.ceil(this.meta.count / this.meta.limit) - 1;
-             return last < 0 ? 0 : last;
+            //https://stackoverflow.com/questions/39670902/pagination-calculation-algorithm
+            const last = Math.ceil(this.meta.count / this.meta.limit) - 1;
+            return last < 0 ? 0 : last;
         },
         firstRangePage () {
             if (this.currentPageNo <= MIN_FIRST_RANGE) {

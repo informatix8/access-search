@@ -4,7 +4,7 @@
  * Connect Search BIOS models’ API to a Vue app or Vue component
  * @author Joe Kovach
  */
-export function bindHandlersToModel(model) {
+export function bindHandlersToModel (model) {
     return {
         /**
          * @summary Execute ESC key procedure on the model
@@ -12,7 +12,7 @@ export function bindHandlersToModel(model) {
          * @memberOf bindHandlerToModel
          * @param model {BxSearchBIOS}
          */
-        'do-esc'() {
+        'do-esc' () {
             model.esc();
         },
         /**
@@ -23,7 +23,7 @@ export function bindHandlersToModel(model) {
          * @param val {String} current search query string
          * @param isMobileZoomed {Boolean} current mobile zoomed state
          */
-        'do-enter'(val, isMobileZoomed) {
+        'do-enter' (val, isMobileZoomed) {
             model.enter(val);
             model.setMobileZoomed(isMobileZoomed);
         },
@@ -35,7 +35,7 @@ export function bindHandlersToModel(model) {
          * @param val {String} current search query string
          * @param reason {String} explanation of how the search was executed
          */
-        'do-search'(val, reason) {
+        'do-search' (val, reason) {
             model.search(val, reason);
         },
         /**
@@ -45,7 +45,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} current search query string
          */
-        'do-arrow-up'(val) {
+        'do-arrow-up' (val) {
             model.arrowUp(val);
         },
         /**
@@ -55,7 +55,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} current search query string
          */
-        'do-arrow-down'(val) {
+        'do-arrow-down' (val) {
             model.arrowDown(val);
         },
         /**
@@ -65,8 +65,8 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param reason {String} reason why it was dismissed
          */
-        'do-dismiss-intent'(reason) {
-                model.dismissIntent(reason);
+        'do-dismiss-intent' (reason) {
+            model.dismissIntent(reason);
         },
         /**
          * @summary Execute user’s intent to edit logic
@@ -75,7 +75,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} current search query string
          */
-        'do-edit-intent'(val) {
+        'do-edit-intent' (val) {
             model.editIntent(val);
         },
         /**
@@ -85,7 +85,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param isMobileZoomed {Boolen} current mobile zoomed state
          */
-        'do-mobile-zoom'(isMobileZoomed) {
+        'do-mobile-zoom' (isMobileZoomed) {
             model.setMobileZoomed(isMobileZoomed);
         },
         /**
@@ -96,7 +96,7 @@ export function bindHandlersToModel(model) {
          * @param val {String} current search query string
          * @param isMobileZoomed {Boolen} current mobile zoomed state
          */
-        'do-outside-trigger'(isMobileZoomed) {
+        'do-outside-trigger' (isMobileZoomed) {
             model.outsideTrigger(isMobileZoomed);
         },
         /**
@@ -106,7 +106,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} current search query string
          */
-        'do-click-history-item'(id) {
+        'do-click-history-item' (id) {
             model.clickHistoryItem(id);
         },
         /**
@@ -116,7 +116,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} current search query string
          */
-        'do-click-suggestions-item'(suggestionId) {
+        'do-click-suggestions-item' (suggestionId) {
             model.clickSuggestionsItem(suggestionId);
         },
         /**
@@ -126,7 +126,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} new sort
          */
-        'do-sort'(sort) {
+        'do-sort' (sort) {
             model.request.sort = sort;
             if (model.request.q) {
                 model.search(model.request.q, 'change-sort');
@@ -139,7 +139,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} new offset
          */
-        'do-offset'(offset) {
+        'do-offset' (offset) {
             model.request.offset = offset;
             if (model.request.q) {
                 model.search(model.request.q, 'change-offset');
@@ -152,7 +152,7 @@ export function bindHandlersToModel(model) {
          * @param model {BxSearchBIOS}
          * @param val {String} new limit
          */
-        'do-limit'(limit) {
+        'do-limit' (limit) {
             model.request.limit = limit;
             model.request.offset = Math.floor(model.request.offset / limit) * limit;
             if (model.request.q) {
@@ -167,23 +167,23 @@ export function bindHandlersToModel(model) {
          * @param name {String} name of field
          * @param val {String} is checked
          */
-        check(name, val) {
+        check (name, val) {
             model.request[name] = val;
             if (model.request.q) {
                 model.search(model.request.q, 'change-limit');
             }
         }
-    }
+    };
 }
 
-export function bindHandlersThroughConsole(handlers) {
+export function bindHandlersThroughConsole (handlers) {
     const retVal = {};
 
-    for (let k in handlers) {
+    for (const k in handlers) {
         retVal[k] = (...params) => {
             console.log(k, params);
             handlers[k](...params);
-        }
+        };
     }
 
     return retVal;

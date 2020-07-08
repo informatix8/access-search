@@ -218,15 +218,15 @@ import AccessSearchCheckList from '@/components/AccessSearchCheckList.vue';
 import AccessSearchRadioList from '@/components/AccessSearchRadioList.vue';
 import AccessSearchSorter from '@/components/AccessSearchSorter.vue';
 
-import {SearchBIOS, SearchHistoryDataServiceLocalStorage} from '@informatix8/search-bios';
+import { SearchBIOS, SearchHistoryDataServiceLocalStorage } from '@informatix8/search-bios';
 
 import SearchResultDataServiceTheta from './search-result-data-service-theta';
 import SearchSuggestDataServiceEpsilon from './search-suggest-data-service-epsilon';
-import {bindHandlersThroughConsole, bindHandlersToModel} from "./bindHandlersToModel";
+import { bindHandlersThroughConsole, bindHandlersToModel } from './bindHandlersToModel';
 
 export default {
     name: 'app',
-    data() {
+    data () {
         const model = new SearchBIOS({
             id: 'epsilon-search-demo',
             request: {
@@ -235,7 +235,7 @@ export default {
                 offset: 0,
                 sort: 'chronological',
                 includeDefinitions: false,
-                checkBox: [ 'check2' ]
+                checkBox: ['check2']
             },
             config: {
                 historyEnabled: true,
@@ -248,12 +248,12 @@ export default {
                 ],
                 includeDefinitionsOptions: [
                     { text: 'Include ', value: true },
-                    { text: 'Exclude', value: false },
+                    { text: 'Exclude', value: false }
                 ],
                 checkBoxOptions: [
                     { text: 'Check 1', value: 'check1' },
                     { text: 'Check 2', value: 'check2' },
-                    { text: 'Check 3', value: 'check3', visuallyHidden: true },
+                    { text: 'Check 3', value: 'check3', visuallyHidden: true }
                 ]
             },
             resultDataService: new SearchResultDataServiceTheta(),
@@ -293,7 +293,7 @@ export default {
     mounted: function () {
         document.querySelectorAll('.access-field-input')[0].focus();
     }
-}
+};
 </script>
 
 <style>
