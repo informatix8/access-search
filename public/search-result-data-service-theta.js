@@ -28,7 +28,7 @@ export default class SearchResultDataServiceTheta {
             } else if (query === 'error') {
                 console.log('pre programmed reject');
                 this.loading = false;
-                reject('Pre-programmed demo error.');
+                reject(new Error('Pre-programmed demo error.'));
             } else {
                 const params = new URLSearchParams();
                 params.set('q', query);
