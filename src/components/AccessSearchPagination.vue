@@ -131,6 +131,9 @@ export default {
         separateLastPage () {
             const currentPageNo = this.currentPageNo;
             const lastPageNo = this.lastPageNo;
+            if (lastPageNo <= MIN_FIRST_RANGE) {
+                return false;
+            }
             return lastPageNo - currentPageNo > RIGHT_MARGIN;
         },
         rightGap () {
