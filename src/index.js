@@ -13,6 +13,7 @@ import AccessSearchCheckList from './components/AccessSearchCheckList.vue';
 import AccessSearchRadioList from './components/AccessSearchRadioList.vue';
 
 import AccessSearchControlMixin from './components/AccessSearchControlMixin';
+import bindHandlersToModel from './bindHandlersToModel';
 
 export {
     AccessSearchField,
@@ -29,5 +30,7 @@ export {
     AccessSearchCheckList,
     AccessSearchRadioList,
 
-    AccessSearchControlMixin
+    AccessSearchControlMixin,
+
+    bindHandlersToModel
 };
